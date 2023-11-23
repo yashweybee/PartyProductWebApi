@@ -20,7 +20,8 @@ namespace PartyProductWebApi.Helpers
             CreateMap<AssignParty, AssignPartyDTO>().ReverseMap();
             CreateMap<AssignPartyCreationDTO, AssignParty>();
 
-
+            CreateMap<Invoice, InvoiceDTO>().ReverseMap();
+            CreateMap<InvoiceCreationDTO, Invoice>();
         }
     }
 }
