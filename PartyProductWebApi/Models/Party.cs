@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace PartyProductWebApi.Models;
 
@@ -10,7 +9,7 @@ public partial class Party
 
     public string Name { get; set; } = null!;
 
+    public virtual ICollection<AssignParty> AssignParties { get; set; } = new List<AssignParty>();
 
-    [JsonIgnore]
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 }

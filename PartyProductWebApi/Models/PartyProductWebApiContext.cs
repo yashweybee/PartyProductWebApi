@@ -27,30 +27,27 @@ public partial class PartyProductWebApiContext : DbContext
 
     public virtual DbSet<ProductRateLog> ProductRateLogs { get; set; }
 
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseSqlServer("Server=DESKTOP-I8CAHS7;Database=PartyProductWebApi;Trusted_Connection=True;TrustServerCertificate=True");
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder.UseSqlServer("Server=DESKTOP-I8CAHS7;Database=PartyProductWebApi;Trusted_Connection=True;TrustServerCertificate=True");
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-I8CAHS7;Database=PartyProductWebApi;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AssignParty>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("AssignParty");
+            entity.HasKey(e => e.Id).HasName("PK__AssignPa__3214EC070204EA22");
 
-            entity.HasOne(d => d.Party).WithMany()
+            entity.ToTable("AssignParty");
+
+            entity.HasOne(d => d.Party).WithMany(p => p.AssignParties)
                 .HasForeignKey(d => d.PartyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AssignPar__Party__3A81B327");
+                .HasConstraintName("FK__AssignPar__Party__47DBAE45");
 
-            entity.HasOne(d => d.Product).WithMany()
+            entity.HasOne(d => d.Product).WithMany(p => p.AssignParties)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AssignPar__Produ__3B75D760");
+                .HasConstraintName("FK__AssignPar__Produ__48CFD27E");
         });
 
         modelBuilder.Entity<Invoice>(entity =>
