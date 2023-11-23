@@ -27,7 +27,7 @@ namespace PartyProductWebApi.Controllers
         }
 
 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id}", Name = "GetParty")]
         public async Task<ActionResult<PartyDTO>> Get(int Id)
         {
 
@@ -37,13 +37,37 @@ namespace PartyProductWebApi.Controllers
 
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Post([FromBody] PartyCreationDTO partyCreationDTO)
-        //{
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] PartyCreationDTO partyCreationDTO)
+        {
+            var party = _mapper.Map<Party>(partyCreationDTO);
+            _context.Add(party);
+            await _context.SaveChangesAsync();
+            //var partyDTO = _mapper.Map<PartyDTO>(party);
+            return new CreatedAtRouteResult("GetParty", new { party.Id }, party);
+        }
 
+        [HttpPut("{Id}")]
+        public async Task<ActionResult> Put(int Id, [FromBody] PartyCreationDTO partyCreationDTO)
+        {
+            var party = _mapper.Map<Party>(partyCreationDTO);
+            party.Id = Id;
+            _context.Entry(party).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
-        //    return NoContent();
-        //}
-
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult> Delete(int Id)
+        {
+            var IsExistParty = await _context.Parties.AnyAsync(x => x.Id == Id);
+            if (!IsExistParty)
+            {
+                return NotFound();
+            }
+            _context.Remove(new Party { Id = Id });
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

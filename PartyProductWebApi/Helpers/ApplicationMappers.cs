@@ -9,6 +9,7 @@ namespace PartyProductWebApi.Helpers
         public ApplicationMappers()
         {
             CreateMap<Party, PartyDTO>().ReverseMap();
+            CreateMap<PartyCreationDTO, Party>();
 
         }
     }
