@@ -11,6 +11,9 @@ namespace PartyProductWebApi.Helpers
             CreateMap<Party, PartyDTO>().ReverseMap();
             CreateMap<PartyCreationDTO, Party>();
 
+            CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<ProductCreationDTO, Product>();
+
         }
     }
 }
