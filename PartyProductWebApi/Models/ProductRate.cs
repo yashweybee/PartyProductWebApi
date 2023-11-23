@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PartyProductWebApi.Models;
 
@@ -11,5 +12,7 @@ public partial class ProductRate
 
     public int Rate { get; set; }
 
+
+    [JsonIgnore]
     public virtual Product Product { get; set; } = null!;
 }

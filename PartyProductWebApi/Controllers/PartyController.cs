@@ -43,8 +43,8 @@ namespace PartyProductWebApi.Controllers
             var party = _mapper.Map<Party>(partyCreationDTO);
             _context.Add(party);
             await _context.SaveChangesAsync();
-            //var partyDTO = _mapper.Map<PartyDTO>(party);
-            return new CreatedAtRouteResult("GetParty", new { party.Id }, party);
+            var partyDTO = _mapper.Map<PartyDTO>(party);
+            return new CreatedAtRouteResult("GetParty", new { party.Id }, partyDTO);
         }
 
         [HttpPut("{Id}")]
