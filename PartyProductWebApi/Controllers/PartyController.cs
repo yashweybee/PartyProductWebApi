@@ -33,8 +33,7 @@ namespace PartyProductWebApi.Controllers
 
             var party = await _context.Parties.FirstOrDefaultAsync(x => x.Id == Id);
             var partyDTO = _mapper.Map<PartyDTO>(party);
-            return partyDTO;
-
+            return partyDTO;                                       
         }
 
         [HttpPost]

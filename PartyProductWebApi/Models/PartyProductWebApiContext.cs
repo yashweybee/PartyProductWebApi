@@ -48,6 +48,8 @@ public partial class PartyProductWebApiContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AssignPar__Produ__48CFD27E");
+
+            modelBuilder.Entity<ProductRate>().ToTable(tb => tb.HasTrigger("trInsertProductRateLog"));
         });
 
         modelBuilder.Entity<Invoice>(entity =>
