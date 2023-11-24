@@ -38,6 +38,23 @@ namespace PartyProductWebApi.Controllers
             return invoiceDTO;
         }
 
+
+        [HttpGet("getByProduct")]
+        public async Task<ActionResult<InvoiceDTO>> GetByProduct(int productId)
+        {
+            var invoice = await _context.Invoices.FromSqlRaw($"EXECUTE dbo.GetInvoiceByProduct {productId}").ToListAsync();
+            //var invoiceDTO = _mapper.Map<InvoiceDTO>(invoice);
+            return Ok(invoice);
+        }
+
+        [HttpGet("getByDate")]
+        public async Task<ActionResult<InvoiceDTO>> GetByDate(string date)
+        {
+            var invoice = await _context.Invoices.FromSqlRaw($"EXECUTE dbo.GetInvoiceByDate {date}").ToListAsync();
+            //var invoiceDTO = _mapper.Map<InvoiceDTO>(invoice);
+            return Ok(invoice);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] InvoiceCreationDTO invoiceCreationDTO)
         {

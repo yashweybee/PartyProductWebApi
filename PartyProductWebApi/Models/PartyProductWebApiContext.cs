@@ -28,7 +28,6 @@ public partial class PartyProductWebApiContext : DbContext
     public virtual DbSet<ProductRateLog> ProductRateLogs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=DESKTOP-I8CAHS7;Database=PartyProductWebApi;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,8 +47,6 @@ public partial class PartyProductWebApiContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__AssignPar__Produ__48CFD27E");
-
-            modelBuilder.Entity<ProductRate>().ToTable(tb => tb.HasTrigger("trInsertProductRateLog"));
         });
 
         modelBuilder.Entity<Invoice>(entity =>
@@ -57,6 +54,8 @@ public partial class PartyProductWebApiContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Invoice__3214EC078EA691E1");
 
             entity.ToTable("Invoice");
+
+            entity.Property(e => e.Date).HasColumnType("date");
 
             entity.HasOne(d => d.Party).WithMany(p => p.Invoices)
                 .HasForeignKey(d => d.PartyId)
@@ -87,7 +86,7 @@ public partial class PartyProductWebApiContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__ProductR__3214EC0731EA6B61");
 
-            entity.ToTable("ProductRate");
+            entity.ToTable("ProductRate", tb => tb.HasTrigger("trInsertProductRateLog"));
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductRates)
                 .HasForeignKey(d => d.ProductId)
